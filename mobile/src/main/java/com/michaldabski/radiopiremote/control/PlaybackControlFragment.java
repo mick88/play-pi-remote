@@ -33,12 +33,13 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         btnStop,
         btnVolumeUp,
         btnVolumeDown;
+    private SeekBar seekVolume;
+
     /**
      * Last known status
      */
     @Nullable
     Status lastStatus = null;
-    private SeekBar seekVolume;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
