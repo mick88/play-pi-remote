@@ -40,6 +40,20 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
     Status lastStatus = null;
     private SeekBar seekVolume;
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("status", lastStatus);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            lastStatus = savedInstanceState.getParcelable("status");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,7 +79,11 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         btnVolumeDown.setOnClickListener(this);
         seekVolume.setOnSeekBarChangeListener(this);
 
-        fetchStatus();
+        if (savedInstanceState == null) {
+            fetchStatus();
+        } else {
+            updateStatus(lastStatus);
+        }
     }
 
     @Override

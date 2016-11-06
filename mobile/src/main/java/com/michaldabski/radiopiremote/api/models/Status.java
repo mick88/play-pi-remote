@@ -1,5 +1,8 @@
 package com.michaldabski.radiopiremote.api.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -8,7 +11,7 @@ import java.util.Objects;
  * Created by Michal on 31/10/2016.
  */
 
-public class Status {
+public class Status implements Parcelable{
     public static final String
         STATE_PLAY = "play",
         STATE_STOP = "stop",
@@ -48,6 +51,45 @@ public class Status {
     String mixrampdb;
     @SerializedName("audio")
     String audio;
+
+    public Status() {
+    }
+
+    protected Status(Parcel in) {
+        volume = in.readString();
+        state = in.readString();
+        time = in.readString();
+        elapsed = in.readString();
+        mixrampdb = in.readString();
+        audio = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(volume);
+        dest.writeString(state);
+        dest.writeString(time);
+        dest.writeString(elapsed);
+        dest.writeString(mixrampdb);
+        dest.writeString(audio);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Status> CREATOR = new Creator<Status>() {
+        @Override
+        public Status createFromParcel(Parcel in) {
+            return new Status(in);
+        }
+
+        @Override
+        public Status[] newArray(int size) {
+            return new Status[size];
+        }
+    };
 
     /**
      * Gets volume as an integer
