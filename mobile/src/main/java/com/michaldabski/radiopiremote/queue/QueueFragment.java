@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.VolleyError;
 import com.michaldabski.radiopiremote.BaseFragment;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
@@ -53,8 +54,16 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
         fetchQueue();
     }
 
+    void setProgressVisible(boolean visible) {
+        if (isAdded()) {
+            final int visibility = visible ? View.VISIBLE : View.GONE;
+            getView().findViewById(android.R.id.progress).setVisibility(visibility);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public void fetchQueue() {
+        setProgressVisible(true);
         final ApiUrlBuilder urlBuilder = getPiRemoteApplication().getApiUrlBuilder();
         final QueueRequest<QueueItem[]> request = QueueRequest.getQueue(urlBuilder, this, this);
         sendRequest(request);
@@ -82,8 +91,15 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
                     if (item != null) adapter.add(item);
                 }
                 listView.setAdapter(adapter);
+                setProgressVisible(false);
             }
         }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        super.onErrorResponse(error);
+        setProgressVisible(false);
     }
 
     @Override
