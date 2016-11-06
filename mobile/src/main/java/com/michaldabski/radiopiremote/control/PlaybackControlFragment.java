@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 
 import com.android.volley.Request;
 import com.michaldabski.radiopiremote.BaseFragment;
@@ -22,7 +23,7 @@ import com.michaldabski.radiopiremote.api.requests.StatusRequest;
  * Created by Michal on 30/10/2016.
  */
 
-public class PlaybackControlFragment extends BaseFragment implements View.OnClickListener, GsonResponseListener {
+public class PlaybackControlFragment extends BaseFragment implements View.OnClickListener, GsonResponseListener, SeekBar.OnSeekBarChangeListener {
     public static final String VOLUME_INCREMENT_VALUE = "+" + BuildConfig.VOLUME_CHANGE_STEP;
     public static final String VOLUME_DECREMENT_VALUE = "-" + BuildConfig.VOLUME_CHANGE_STEP;
     private ImageButton
@@ -37,6 +38,7 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
      */
     @Nullable
     Status lastStatus = null;
+    private SeekBar seekVolume;
 
     @Nullable
     @Override
@@ -53,6 +55,7 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         this.btnStop = ((ImageButton) view.findViewById(R.id.btnStop));
         this.btnVolumeUp = ((ImageButton) view.findViewById(R.id.btnVolumeUp));
         this.btnVolumeDown = ((ImageButton) view.findViewById(R.id.btnVolumeDown));
+        seekVolume = ((SeekBar) view.findViewById(R.id.seekVolume));
 
         btnPlayPause.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -60,6 +63,7 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         btnStop.setOnClickListener(this);
         btnVolumeUp.setOnClickListener(this);
         btnVolumeDown.setOnClickListener(this);
+        seekVolume.setOnSeekBarChangeListener(this);
 
         fetchStatus();
     }
@@ -99,6 +103,7 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         if (repeat == null) repeat = false;
         btnNext.setEnabled(repeat && !status.isLastItem());
         btnPrev.setEnabled(repeat && !status.isFirstItem());
+        seekVolume.setProgress(status.getVolumeInt());
     }
 
     void fetchStatus() {
@@ -153,5 +158,26 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         if (object instanceof Status) {
             updateStatus((Status) object);
         }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        Status status = new Status();
+        status.setVolumeInt(seekBar.getProgress());
+
+        final ApiUrlBuilder urlBuilder = getPiRemoteApplication().getApiUrlBuilder();
+        final ApiRequest<Status> request = new ApiRequest<>(Request.Method.POST, urlBuilder, ApiUrlBuilder.ENDPOINT_STATUS, Status.class, this, this);
+        request.setObject(status);
+        sendRequest(request);
     }
 }

@@ -57,6 +57,12 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_volume_down" />
 
+        <SeekBar
+            android:id="@+id/seekVolume"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+
         <ImageButton
             android:id="@+id/btnVolumeUp"
             style="?borderlessButtonStyle"
