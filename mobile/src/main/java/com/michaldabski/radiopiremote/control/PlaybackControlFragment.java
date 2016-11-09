@@ -80,11 +80,15 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         btnVolumeDown.setOnClickListener(this);
         seekVolume.setOnSeekBarChangeListener(this);
 
-        if (savedInstanceState == null) {
-            fetchStatus();
-        } else {
+        if (savedInstanceState != null) {
             updateStatus(lastStatus);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchStatus();
     }
 
     @Override
