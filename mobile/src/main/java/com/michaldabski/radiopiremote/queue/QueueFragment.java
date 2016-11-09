@@ -50,7 +50,11 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
         listView.setOnItemClickListener(this);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         fetchQueue();
     }
 
