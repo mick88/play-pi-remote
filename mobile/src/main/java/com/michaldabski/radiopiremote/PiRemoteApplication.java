@@ -1,9 +1,11 @@
 package com.michaldabski.radiopiremote;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.michaldabski.radiopiremote.api.ApiConfigurationError;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 
 /**
@@ -11,8 +13,9 @@ import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
  */
 
 public class PiRemoteApplication extends Application {
+    public static final String PREFERENCES_NAME = "pi-remote";
+    public static final String PREF_ADDRESS = "address";
     private RequestQueue requestQueue;
-    private ApiUrlBuilder apiUrlBuilder;
 
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
@@ -21,10 +24,12 @@ public class PiRemoteApplication extends Application {
         return requestQueue;
     }
 
-    public ApiUrlBuilder getApiUrlBuilder() {
-        if (apiUrlBuilder == null) {
-            apiUrlBuilder = new ApiUrlBuilder(BuildConfig.HOST_ADDRESS);
-        }
-        return apiUrlBuilder;
+    public ApiUrlBuilder getApiUrlBuilder() throws ApiConfigurationError {
+        final String address = getSharedPreferences().getString(PREF_ADDRESS, "");
+        return new ApiUrlBuilder(address);
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE);
     }
 }
