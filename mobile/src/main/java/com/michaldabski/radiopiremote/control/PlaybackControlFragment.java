@@ -129,7 +129,7 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         seekVolume.setProgress(status.getVolumeInt());
     }
 
-    void fetchStatus() {
+    public void fetchStatus() {
         final ApiUrlBuilder urlBuilder = getPiRemoteApplication().getApiUrlBuilder();
         //noinspection unchecked
         ApiRequest<Status> request = StatusRequest.get(urlBuilder, this, this);

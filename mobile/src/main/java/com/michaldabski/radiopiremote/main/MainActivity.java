@@ -1,25 +1,50 @@
 package com.michaldabski.radiopiremote.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 
 import com.michaldabski.radiopiremote.BaseActivity;
+import com.michaldabski.radiopiremote.PiRemoteApplication;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.models.Status;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.StatusRequest;
 import com.michaldabski.radiopiremote.control.PlaybackControlFragment;
+import com.michaldabski.radiopiremote.setup.SetupActivity;
 
 /**
  * Created by Michal on 30/10/2016.
  */
 
 public class MainActivity extends BaseActivity implements GsonResponseListener<Status> {
+
+    public static final int REQUEST_CODE_SETUP = 1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (getPiRemoteApplication().getSharedPreferences().contains(PiRemoteApplication.PREF_ADDRESS) == false) {
+            Intent intent = new Intent(this, SetupActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_SETUP);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_SETUP:
+                if (resultCode == RESULT_OK) {
+                    getPlaybackControlsFragment().fetchStatus();
+                } else {
+                    finish();
+                }
+                break;
+        }
     }
 
     @Override

@@ -10,7 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "HOST_ADDRESS", '"http://192.168.0.14/"'
         buildConfigField "int", "VOLUME_CHANGE_STEP", '5'
     }
     buildTypes {
