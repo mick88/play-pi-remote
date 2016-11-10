@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Radio-Pi Remote</string>
     <string name="address_invalid">Cannot connect to this address</string>
+    <string name="open_in_browser">Open in browser</string>
 </resources>

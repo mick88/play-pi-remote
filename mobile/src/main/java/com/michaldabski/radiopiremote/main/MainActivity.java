@@ -1,9 +1,12 @@
 package com.michaldabski.radiopiremote.main;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.michaldabski.radiopiremote.BaseActivity;
 import com.michaldabski.radiopiremote.PiRemoteApplication;
@@ -48,6 +51,26 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuOpenInBrowser:
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                final String address = getPiRemoteApplication().getSharedPreferences().getString(PiRemoteApplication.PREF_ADDRESS, null);
+                intent.setData(Uri.parse(address));
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
