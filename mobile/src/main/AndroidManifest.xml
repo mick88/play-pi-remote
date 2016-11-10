@@ -19,7 +19,7 @@
         </activity>
 
         <activity
-            android:name=".setup.SetupActivity"
+            android:name=".setup.AddressSetupActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

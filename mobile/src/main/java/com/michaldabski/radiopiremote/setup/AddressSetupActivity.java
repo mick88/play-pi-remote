@@ -21,7 +21,7 @@ import com.michaldabski.radiopiremote.api.requests.StatusRequest;
  * Created by Michal on 10/11/2016.
  */
 
-public class SetupActivity extends BaseActivity implements View.OnClickListener {
+public class AddressSetupActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

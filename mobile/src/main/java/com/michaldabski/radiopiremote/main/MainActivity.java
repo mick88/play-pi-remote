@@ -13,7 +13,7 @@ import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.StatusRequest;
 import com.michaldabski.radiopiremote.control.PlaybackControlFragment;
 import com.michaldabski.radiopiremote.queue.QueueFragment;
-import com.michaldabski.radiopiremote.setup.SetupActivity;
+import com.michaldabski.radiopiremote.setup.AddressSetupActivity;
 
 /**
  * Created by Michal on 30/10/2016.
@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
         setContentView(R.layout.activity_main);
 
         if (getPiRemoteApplication().getSharedPreferences().contains(PiRemoteApplication.PREF_ADDRESS) == false) {
-            Intent intent = new Intent(this, SetupActivity.class);
+            Intent intent = new Intent(this, AddressSetupActivity.class);
             startActivityForResult(intent, REQUEST_CODE_SETUP);
         }
     }
