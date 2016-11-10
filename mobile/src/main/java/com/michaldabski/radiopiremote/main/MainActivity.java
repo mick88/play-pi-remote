@@ -12,6 +12,7 @@ import com.michaldabski.radiopiremote.api.models.Status;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.StatusRequest;
 import com.michaldabski.radiopiremote.control.PlaybackControlFragment;
+import com.michaldabski.radiopiremote.queue.QueueFragment;
 import com.michaldabski.radiopiremote.setup.SetupActivity;
 
 /**
@@ -40,6 +41,8 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
             case REQUEST_CODE_SETUP:
                 if (resultCode == RESULT_OK) {
                     getPlaybackControlsFragment().fetchStatus();
+                    final QueueFragment queueFragment = (QueueFragment) getSupportFragmentManager().findFragmentByTag("queue-fragment");
+                    if (queueFragment != null) queueFragment.fetchQueue();
                 } else {
                     finish();
                 }
