@@ -12,6 +12,7 @@ import com.android.volley.Request;
 import com.michaldabski.radiopiremote.BaseFragment;
 import com.michaldabski.radiopiremote.BuildConfig;
 import com.michaldabski.radiopiremote.R;
+import com.michaldabski.radiopiremote.api.ApiConfigurationError;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.Status;
 import com.michaldabski.radiopiremote.api.requests.ApiRequest;
@@ -88,7 +89,11 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
     @Override
     public void onResume() {
         super.onResume();
-        fetchStatus();
+        try {
+            fetchStatus();
+        } catch (ApiConfigurationError e) {
+            // not configured yet
+        }
     }
 
     @Override

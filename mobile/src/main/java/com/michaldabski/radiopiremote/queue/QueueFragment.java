@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.android.volley.VolleyError;
 import com.michaldabski.radiopiremote.BaseFragment;
 import com.michaldabski.radiopiremote.R;
+import com.michaldabski.radiopiremote.api.ApiConfigurationError;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.QueueItem;
@@ -55,7 +56,11 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
     @Override
     public void onResume() {
         super.onResume();
-        fetchQueue();
+        try {
+            fetchQueue();
+        } catch (ApiConfigurationError e) {
+            // not configured
+        }
     }
 
     void setProgressVisible(boolean visible) {
