@@ -1,6 +1,7 @@
 package com.michaldabski.radiopiremote.control;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,9 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         seekVolume.setOnSeekBarChangeListener(this);
 
         if (savedInstanceState != null) {
-            updateStatus(lastStatus);
+            if (lastStatus != null) {
+                updateStatus(lastStatus);
+            }
         }
     }
 
@@ -107,8 +110,7 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         btnVolumeDown = null;
     }
 
-    public void updateStatus(Status status) {
-        if (status == null) return;
+    public void updateStatus(@NonNull Status status) {
         lastStatus = status;
 
         switch (status.getState()) {
