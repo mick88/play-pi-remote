@@ -1,6 +1,7 @@
 package com.michaldabski.radiopiremote.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,7 +32,8 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (getPiRemoteApplication().getSharedPreferences().contains(PiRemoteApplication.PREF_ADDRESS) == false) {
+        final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
+        if (savedInstanceState == null && preferences.contains(PiRemoteApplication.PREF_ADDRESS) == false) {
             Intent intent = new Intent(this, AddressSetupActivity.class);
             startActivityForResult(intent, REQUEST_CODE_SETUP);
         }
