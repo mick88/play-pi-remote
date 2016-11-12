@@ -67,7 +67,7 @@ public class AddressSetupActivity extends BaseActivity implements View.OnClickLi
                 final EditText editAddress = (EditText) findViewById(R.id.editAddress);
                 editAddress.setError(null);
                 final String address = editAddress.getText().toString();
-                testAddress(address);
+                testAddress(address.trim());
                 break;
         }
     }
