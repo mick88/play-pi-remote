@@ -108,6 +108,7 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
     }
 
     public void updateStatus(Status status) {
+        if (status == null) return;
         lastStatus = status;
 
         switch (status.getState()) {
