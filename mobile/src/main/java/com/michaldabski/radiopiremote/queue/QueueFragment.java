@@ -14,11 +14,15 @@ import com.michaldabski.radiopiremote.BaseFragment;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiConfigurationError;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
+import com.michaldabski.radiopiremote.api.events.QueueJumpEvent;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.QueueItem;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.JumpRequest;
 import com.michaldabski.radiopiremote.api.requests.QueueRequest;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -118,5 +122,25 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
         //noinspection unchecked
         final JumpRequest jumpRequest = JumpRequest.item(urlBuilder, item, this, this);
         sendRequest(jumpRequest);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onQueueChange(QueueJumpEvent event) {
+        if (adapter != null) {
+            final QueueItem queueItem = event.getObject();
+            adapter.setCurrentMpdId(queueItem.getMpdId());
+        }
     }
 }

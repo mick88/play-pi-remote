@@ -5,10 +5,13 @@ import android.support.annotation.Nullable;
 
 import com.android.volley.Response;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
+import com.michaldabski.radiopiremote.api.events.QueueJumpEvent;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.QueueItem;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
 import com.michaldabski.radiopiremote.api.models.Track;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Michal on 31/10/2016.
@@ -52,5 +55,11 @@ public class JumpRequest extends ApiRequest<QueueItem> {
         final JumpRequest request = new JumpRequest(urlBuilder, toType, errorListener, responseListener);
         request.setObject(item);
         return request;
+    }
+
+    @Override
+    protected void deliverResponse(QueueItem response) {
+        super.deliverResponse(response);
+        EventBus.getDefault().post(new QueueJumpEvent(response));
     }
 }

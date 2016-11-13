@@ -4,7 +4,10 @@ import android.support.annotation.Nullable;
 
 import com.android.volley.Response;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
+import com.michaldabski.radiopiremote.api.events.StatusChangeEvent;
 import com.michaldabski.radiopiremote.api.models.Status;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Michal on 31/10/2016.
@@ -29,5 +32,18 @@ public class StatusRequest extends ApiRequest<Status> {
         final StatusRequest request = new StatusRequest(Method.POST, urlBuilder, errorListener, responseListener);
         request.setObject(status);
         return request;
+    }
+
+    @Override
+    protected void deliverResponse(Status response) {
+        super.deliverResponse(response);
+        switch (getMethod()) {
+            case Method.POST:
+            case Method.PUT:
+            case Method.PATCH:
+            case Method.DELETE:
+                EventBus.getDefault().post(new StatusChangeEvent(response));
+                break;
+        }
     }
 }
