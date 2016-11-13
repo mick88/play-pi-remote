@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF8E4E</color>
 
-    <color name="grey">#777</color>
+    <color name="grey">#A000</color>
 
     <color name="queueItem">@color/grey</color>
 </resources>
