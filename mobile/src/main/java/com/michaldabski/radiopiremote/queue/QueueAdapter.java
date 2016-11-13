@@ -19,6 +19,7 @@ import com.michaldabski.radiopiremote.api.models.Track;
 import java.util.List;
 
 import static com.michaldabski.radiopiremote.R.id.imgArt;
+import static com.michaldabski.radiopiremote.R.id.tvArtist;
 import static com.michaldabski.radiopiremote.R.id.tvTitle;
 
 /**
@@ -31,6 +32,7 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
     private static class ViewHolder {
         NetworkImageView imgArt;
         TextView tvTitle;
+        TextView tvArtist;
     }
 
     private static final int
@@ -71,12 +73,14 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.item_queue, parent, false);
             view.setTag(viewHolder = new ViewHolder());
+            viewHolder.tvArtist = (TextView) view.findViewById(tvArtist);
             viewHolder.tvTitle = (TextView) view.findViewById(tvTitle);
             viewHolder.imgArt = (NetworkImageView) view.findViewById(imgArt);
 
             switch (getItemViewType(position)) {
                 case VIEW_TYPE_RADIO:
                     viewHolder.imgArt.setDefaultImageResId(R.drawable.ic_radio);
+                    viewHolder.tvTitle.setText(R.string.radio);
                     break;
                 case VIEW_TYPE_TRACK:
                     viewHolder.imgArt.setDefaultImageResId(R.drawable.ic_track);
@@ -88,8 +92,18 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
 
         final BaseMpdModel item = getItem(position);
 
+        switch (getItemViewType(position)) {
+            case VIEW_TYPE_TRACK:
+                final Track track = (Track) item;
+                viewHolder.tvArtist.setText(track.getArtist().toString());
+                viewHolder.tvTitle.setText(track.getName());
+                break;
 
-        viewHolder.tvTitle.setText(item.getName());
+            case VIEW_TYPE_RADIO:
+                RadioStation radioStation = (RadioStation) item;
+                viewHolder.tvArtist.setText(radioStation.getName());
+                break;
+        }
         if (currentMpdId != null && currentMpdId == item.getMpdId()) {
             final Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_play);
             viewHolder.imgArt.setImageDrawable(drawable);

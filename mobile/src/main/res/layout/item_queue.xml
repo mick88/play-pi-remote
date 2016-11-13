@@ -3,23 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:padding="@dimen/padding">
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/imgArt"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:scaleType="center"
         android:src="@drawable/ic_radio" />
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
+    <LinearLayout
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:layout_marginLeft="@dimen/padding"
-        android:text="Radio NOVA 100FM"
-        android:textColor="@color/queueItem"
-        android:textAppearance="?android:textAppearanceMedium" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="David Bowie"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/queueItem" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Space Oddity"
+            android:textColor="@color/queueItem" />
+    </LinearLayout>
 
 </LinearLayout>
