@@ -6,12 +6,11 @@
     android:gravity="center_vertical"
     android:padding="@dimen/padding">
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/imgArt"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:scaleType="center"
-        android:tint="@color/queueItem"
         android:src="@drawable/ic_radio" />
 
     <TextView

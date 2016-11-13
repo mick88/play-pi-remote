@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.michaldabski.radiopiremote.BaseFragment;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiConfigurationError;
@@ -38,7 +39,8 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.adapter = new QueueAdapter(getContext(), new ArrayList<BaseMpdModel>());
+        final ImageLoader imageLoader = getPiRemoteApplication().getImageLoader();
+        this.adapter = new QueueAdapter(getContext(), new ArrayList<BaseMpdModel>(), imageLoader);
     }
 
     @Nullable

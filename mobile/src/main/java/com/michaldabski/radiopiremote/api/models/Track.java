@@ -19,4 +19,24 @@ public class Track extends BaseMpdModel {
     public String toString() {
         return String.format("%s - %s", artist, name);
     }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public String getStreamId() {
+        return streamId;
+    }
+
+    public int getTrackNo() {
+        return trackNo;
+    }
+
+    public int getRating() {
+        return rating;
+    }
 }
