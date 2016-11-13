@@ -132,8 +132,8 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
 
         Boolean repeat = status.getRepeat();
         if (repeat == null) repeat = false;
-        btnNext.setEnabled(repeat && !status.isLastItem());
-        btnPrev.setEnabled(repeat && !status.isFirstItem());
+        btnNext.setEnabled(repeat || !status.isLastItem());
+        btnPrev.setEnabled(repeat || !status.isFirstItem());
         seekVolume.setProgress(status.getVolumeInt());
     }
 
