@@ -64,6 +64,11 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
     }
 
     @Override
+    public long getItemId(int position) {
+        return getItem(position).getMpdId();
+    }
+
+    @Override
     public int getViewTypeCount() {
         return VIEW_TYPE_COUNT;
     }
