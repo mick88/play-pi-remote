@@ -105,7 +105,6 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
                     final BaseMpdModel item = queueItem.getItem();
                     if (item != null) adapter.add(item);
                 }
-                listView.setAdapter(adapter);
                 setProgressVisible(false);
             }
         }
