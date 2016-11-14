@@ -13,8 +13,9 @@
         android:src="@drawable/ic_radio" />
 
     <LinearLayout
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/padding"
         android:orientation="vertical">
 

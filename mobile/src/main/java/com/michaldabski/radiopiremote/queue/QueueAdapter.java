@@ -80,7 +80,7 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
             switch (getItemViewType(position)) {
                 case VIEW_TYPE_RADIO:
                     viewHolder.imgArt.setDefaultImageResId(R.drawable.ic_radio);
-                    viewHolder.tvTitle.setText(R.string.radio);
+                    viewHolder.tvTitle.setVisibility(View.GONE);
                     break;
                 case VIEW_TYPE_TRACK:
                     viewHolder.imgArt.setDefaultImageResId(R.drawable.ic_track);
