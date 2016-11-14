@@ -5,12 +5,25 @@
     android:orientation="horizontal"
     android:padding="@dimen/padding">
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/imgArt"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_radio" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/imgArt"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_radio" />
+
+        <ImageView
+            android:id="@+id/imgPlay"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_play"
+            android:scaleType="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_height="match_parent"

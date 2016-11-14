@@ -1,12 +1,12 @@
 package com.michaldabski.radiopiremote.queue;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -19,6 +19,7 @@ import com.michaldabski.radiopiremote.api.models.Track;
 import java.util.List;
 
 import static com.michaldabski.radiopiremote.R.id.imgArt;
+import static com.michaldabski.radiopiremote.R.id.imgPlay;
 import static com.michaldabski.radiopiremote.R.id.tvArtist;
 import static com.michaldabski.radiopiremote.R.id.tvTitle;
 
@@ -31,6 +32,7 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
 
     private static class ViewHolder {
         NetworkImageView imgArt;
+        ImageView imgPlay;
         TextView tvTitle;
         TextView tvArtist;
     }
@@ -76,6 +78,7 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
             viewHolder.tvArtist = (TextView) view.findViewById(tvArtist);
             viewHolder.tvTitle = (TextView) view.findViewById(tvTitle);
             viewHolder.imgArt = (NetworkImageView) view.findViewById(imgArt);
+            viewHolder.imgPlay = (ImageView) view.findViewById(imgPlay);
 
             switch (getItemViewType(position)) {
                 case VIEW_TYPE_RADIO:
@@ -105,9 +108,14 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
                 break;
         }
         if (currentMpdId != null && currentMpdId == item.getMpdId()) {
-            final Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_play);
-            viewHolder.imgArt.setImageDrawable(drawable);
-        } else if (item instanceof Track) {
+            viewHolder.imgPlay.setVisibility(View.VISIBLE);
+            viewHolder.imgArt.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.imgPlay.setVisibility(View.GONE);
+            viewHolder.imgArt.setVisibility(View.VISIBLE);
+        }
+
+        if (item instanceof Track) {
             Track track = (Track) item;
             if (track.getAlbum() != null) {
                 String artUrl = track.getAlbum().getArtUrl();
