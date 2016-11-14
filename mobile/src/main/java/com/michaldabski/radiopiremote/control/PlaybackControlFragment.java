@@ -15,11 +15,15 @@ import com.michaldabski.radiopiremote.BuildConfig;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiConfigurationError;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
+import com.michaldabski.radiopiremote.api.events.QueueJumpEvent;
 import com.michaldabski.radiopiremote.api.models.Status;
 import com.michaldabski.radiopiremote.api.requests.ApiRequest;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.JumpRequest;
 import com.michaldabski.radiopiremote.api.requests.StatusRequest;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by Michal on 30/10/2016.
@@ -210,5 +214,22 @@ public class PlaybackControlFragment extends BaseFragment implements View.OnClic
         final ApiRequest<Status> request = new ApiRequest<>(Request.Method.POST, urlBuilder, ApiUrlBuilder.ENDPOINT_STATUS, Status.class, this, this);
         request.setObject(status);
         sendRequest(request);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public void onQueueJump(QueueJumpEvent event) {
+        fetchStatus();
     }
 }
