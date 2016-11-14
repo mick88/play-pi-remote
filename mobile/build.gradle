@@ -48,7 +48,7 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
 
-    wearApp project(':wear')
+//    wearApp project(':wear')
     compile 'com.google.android.gms:play-services-wearable:9.8.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.volley:volley:1.0.0'
