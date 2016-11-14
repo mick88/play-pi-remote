@@ -3,4 +3,5 @@
     <string name="address_invalid">Cannot connect to this address</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="radio">Radio station</string>
+    <string name="refresh">Refresh</string>
 </resources>
