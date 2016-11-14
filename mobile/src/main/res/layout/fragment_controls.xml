@@ -1,74 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_margin="8dp"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
 
-        <ImageButton
-            android:id="@+id/btnPrev"
-            style="?borderlessButtonStyle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_prev" />
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/btnPlayPause"
-            style="?borderlessButtonStyle"
+
+            <ImageButton
+                android:id="@+id/btnPrev"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_prev" />
+
+            <ImageButton
+                android:id="@+id/btnPlayPause"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_play" />
+
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next" />
+
+            <ImageButton
+                android:id="@+id/btnStop"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_stop" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_play" />
+            android:orientation="horizontal">
 
 
-        <ImageButton
-            android:id="@+id/btnNext"
-            style="?borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_next" />
+            <ImageButton
+                android:id="@+id/btnVolumeDown"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_volume_down" />
 
-        <ImageButton
-            android:id="@+id/btnStop"
-            style="?borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_stop" />
+            <SeekBar
+                android:id="@+id/seekVolume"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <ImageButton
+                android:id="@+id/btnVolumeUp"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_volume_up" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <ImageButton
-            android:id="@+id/btnVolumeDown"
-            style="?borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_volume_down" />
-
-        <SeekBar
-            android:id="@+id/seekVolume"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
-
-        <ImageButton
-            android:id="@+id/btnVolumeUp"
-            style="?borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_volume_up" />
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>
