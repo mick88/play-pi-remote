@@ -7,10 +7,15 @@ import android.text.TextUtils;
  */
 
 public class ApiUrlBuilder {
+    public static final String
+            PLAY_RADIOS = "radios",
+            PLAY_TRACKS = "tracks";
     public static final String ENDPOINT_STATUS = "status/";
     public static final String ENDPOINT_JUMP = "jump/";
     public static final String ENDPOINT_QUEUE = "queue/";
     public static final String ENDPOINT_QUEUE_NOW_PLAYING = "queue/current";
+    public static final String ENDPOINT_RADIOS = "radio_stations/";
+    public static final String ENDPOINT_PLAY = "play/";
     private static final String URL_TEMPLATE = "%sapi/%s";
     private final String address;
 
@@ -20,7 +25,9 @@ public class ApiUrlBuilder {
         this.address = address;
     }
 
-
+    public String getPlayUrl(String type) {
+        return getEndpointUrl(ENDPOINT_PLAY) + type;
+    }
 
     public String getEndpointUrl(String endpointName) {
         return String.format(URL_TEMPLATE, address, endpointName);

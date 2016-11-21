@@ -7,6 +7,10 @@
             android:id="@+id/menuQueue"
             android:icon="@drawable/ic_play"
             android:title="@string/queue" />
+        <item
+            android:id="@+id/menuRadios"
+            android:icon="@drawable/ic_radio"
+            android:title="@string/radios" />
     </group>
     <group>
         <item

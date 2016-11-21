@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 public class QueueFragment extends BaseFragment implements GsonResponseListener, AdapterView.OnItemClickListener {
     ListView listView = null;
-    private QueueAdapter adapter;
+    private MpdItemAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
         setHasOptionsMenu(true);
 
         final ImageLoader imageLoader = getPiRemoteApplication().getImageLoader();
-        this.adapter = new QueueAdapter(getContext(), new ArrayList<BaseMpdModel>(), imageLoader);
+        this.adapter = new MpdItemAdapter(getContext(), new ArrayList<BaseMpdModel>(), imageLoader);
     }
 
     @Override

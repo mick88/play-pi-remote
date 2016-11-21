@@ -27,7 +27,7 @@ import static com.michaldabski.radiopiremote.R.id.tvTitle;
  * Created by Michal on 31/10/2016.
  */
 
-public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
+public class MpdItemAdapter extends ArrayAdapter<BaseMpdModel> {
     private final ImageLoader imageLoader;
 
     private static class ViewHolder {
@@ -43,7 +43,7 @@ public class QueueAdapter extends ArrayAdapter<BaseMpdModel> {
             VIEW_TYPE_COUNT = 2;
     Integer currentMpdId = null;
 
-    public QueueAdapter(Context context, List<BaseMpdModel> items, ImageLoader imageLoader) {
+    public MpdItemAdapter(Context context, List<BaseMpdModel> items, ImageLoader imageLoader) {
         super(context, 0, items);
         this.imageLoader = imageLoader;
     }

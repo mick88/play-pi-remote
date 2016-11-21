@@ -23,7 +23,7 @@ import java.io.UnsupportedEncodingException;
  * Created by Michal on 31/10/2016.
  */
 public class GsonRequest<T> extends Request<T> {
-    private static final Gson GSON = new Gson();
+    protected static final Gson GSON = new Gson();
     public static final String CHARSET_NAME = "utf-8";
     public static final String TAG = "GsonRequest";
     private final GsonResponseListener<T> listener;
