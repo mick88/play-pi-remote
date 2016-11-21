@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
     void setupNavDrawer() {
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.menuQueue);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawer, R.string.closeDrawer);
