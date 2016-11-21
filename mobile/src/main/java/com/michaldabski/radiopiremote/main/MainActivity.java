@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.nav_drawer);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setSubtitle("Version " + BuildConfig.VERSION_NAME);
