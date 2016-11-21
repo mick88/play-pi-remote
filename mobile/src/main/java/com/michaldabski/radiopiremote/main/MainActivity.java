@@ -4,8 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,23 +30,54 @@ import com.michaldabski.radiopiremote.setup.AddressSetupActivity;
  * Created by Michal on 30/10/2016.
  */
 
-public class MainActivity extends BaseActivity implements GsonResponseListener<Status> {
+public class MainActivity extends BaseActivity implements GsonResponseListener<Status>, NavigationView.OnNavigationItemSelectedListener {
 
     public static final int REQUEST_CODE_SETUP = 1;
+    NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.nav_drawer);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setSubtitle("Version " + BuildConfig.VERSION_NAME);
+        setupActionBar();
+        setupNavDrawer();
 
         final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
         if (savedInstanceState == null && preferences.contains(PiRemoteApplication.PREF_ADDRESS) == false) {
-            Intent intent = new Intent(this, AddressSetupActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_SETUP);
+            launchSetupActivity();
         }
+
+        if (savedInstanceState == null) {
+            final QueueFragment fragment = QueueFragment.newInstance();
+            showFragment(fragment);
+        }
+    }
+
+    void launchSetupActivity() {
+        Intent intent = new Intent(this, AddressSetupActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SETUP);
+    }
+
+    void setupActionBar() {
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setSubtitle("Version " + BuildConfig.VERSION_NAME);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    void setupNavDrawer() {
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawer, R.string.closeDrawer);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
     }
 
     @Override
@@ -51,10 +87,15 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
             case REQUEST_CODE_SETUP:
                 if (resultCode == RESULT_OK) {
                     getPlaybackControlsFragment().fetchStatus();
-                    final QueueFragment queueFragment = (QueueFragment) getSupportFragmentManager().findFragmentByTag("queue-fragment");
-                    if (queueFragment != null) queueFragment.fetchQueue();
+                    final Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
+                    if (fragment instanceof QueueFragment) {
+                        ((QueueFragment) fragment).fetchQueue();
+                    }
                 } else {
-                    finish();
+                    final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
+                    if (preferences.contains(PiRemoteApplication.PREF_ADDRESS) == false) {
+                        finish();
+                    }
                 }
                 break;
         }
@@ -77,7 +118,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
                 startActivity(intent);
                 return true;
         }
-        return super.onOptionsItemSelected(item);
+        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -112,5 +153,32 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
 
     public PlaybackControlFragment getPlaybackControlsFragment() {
         return (PlaybackControlFragment) getSupportFragmentManager().findFragmentByTag("playback-controls");
+    }
+
+    void showFragment(Fragment fragment) {
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.fragment, fragment)
+            .commit();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getGroupId() == R.id.groupPages) {
+            item.setChecked(true);
+        }
+        drawerLayout.closeDrawers();
+        switch (item.getItemId()) {
+            case R.id.menuQueue:
+                final QueueFragment fragment = QueueFragment.newInstance();
+                showFragment(fragment);
+                return true;
+
+            case R.id.menuSettings:
+                launchSetupActivity();
+                return true;
+        }
+
+        return false;
     }
 }

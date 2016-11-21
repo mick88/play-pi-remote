@@ -4,4 +4,8 @@
     <string name="open_in_browser">Open in browser</string>
     <string name="radio">Radio station</string>
     <string name="refresh">Refresh</string>
+    <string name="queue">Now playing</string>
+    <string name="openDrawer">Open drawer</string>
+    <string name="closeDrawer">Close drawer</string>
+    <string name="settings">Settings</string>
 </resources>
