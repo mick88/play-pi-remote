@@ -46,10 +46,14 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
 
         final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
         if (savedInstanceState == null && preferences.contains(PiRemoteApplication.PREF_ADDRESS) == false) {
-            Intent intent = new Intent(this, AddressSetupActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_SETUP);
+            launchSetupActivity();
         }
 
+    }
+
+    void launchSetupActivity() {
+        Intent intent = new Intent(this, AddressSetupActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SETUP);
     }
 
     void setupActionBar() {
@@ -81,7 +85,10 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
                     final QueueFragment queueFragment = (QueueFragment) getSupportFragmentManager().findFragmentByTag("queue-fragment");
                     if (queueFragment != null) queueFragment.fetchQueue();
                 } else {
-                    finish();
+                    final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
+                    if (preferences.contains(PiRemoteApplication.PREF_ADDRESS) == false) {
+                        finish();
+                    }
                 }
                 break;
         }
@@ -143,10 +150,17 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        item.setChecked(true);
+        if (item.getGroupId() == R.id.groupPages) {
+            item.setChecked(true);
+        }
+        drawerLayout.closeDrawers();
         switch (item.getItemId()) {
             case R.id.menuQueue:
                 // TODO: show fragment
+                return true;
+
+            case R.id.menuSettings:
+                launchSetupActivity();
                 return true;
         }
 
