@@ -11,6 +11,7 @@ public class ApiUrlBuilder {
     public static final String ENDPOINT_JUMP = "jump/";
     public static final String ENDPOINT_QUEUE = "queue/";
     public static final String ENDPOINT_QUEUE_NOW_PLAYING = "queue/current";
+    public static final String ENDPOINT_RADIOS = "radio_stations/";
     private static final String URL_TEMPLATE = "%sapi/%s";
     private final String address;
 
