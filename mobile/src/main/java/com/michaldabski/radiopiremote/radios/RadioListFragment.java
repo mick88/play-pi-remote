@@ -14,7 +14,6 @@ import com.michaldabski.radiopiremote.BaseFragment;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
-import com.michaldabski.radiopiremote.api.models.QueueItem;
 import com.michaldabski.radiopiremote.api.models.RadioListResponse;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
@@ -65,12 +64,7 @@ public class RadioListFragment extends BaseFragment implements AdapterView.OnIte
         if (item instanceof RadioStation) {
             RadioStation radioStation = ((RadioStation) item);
             final ApiUrlBuilder urlBuilder = getPiRemoteApplication().getApiUrlBuilder();
-            PlayRequest request = PlayRequest.playRadios(urlBuilder, Collections.singletonList(radioStation), this, new GsonResponseListener<QueueItem[]>() {
-                @Override
-                public void onResponse(QueueItem[] responseObject) {
-                    // TODO: send event
-                }
-            });
+            PlayRequest request = PlayRequest.playRadios(urlBuilder, Collections.singletonList(radioStation), this, null);
             sendRequest(request);
         }
     }

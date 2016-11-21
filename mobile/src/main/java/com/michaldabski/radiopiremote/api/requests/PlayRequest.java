@@ -4,8 +4,11 @@ import android.support.annotation.Nullable;
 
 import com.android.volley.Response;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
+import com.michaldabski.radiopiremote.api.events.QueueJumpEvent;
 import com.michaldabski.radiopiremote.api.models.QueueItem;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -23,5 +26,15 @@ public class PlayRequest extends GsonRequest<QueueItem[]> {
         final PlayRequest request = new PlayRequest(url, listener, responseListener);
         request.setObject(radioStations);
         return request;
+    }
+
+    @Override
+    protected void deliverResponse(QueueItem[] response) {
+        super.deliverResponse(response);
+        QueueItem item = null;
+        if (response.length > 0) {
+            item = response[0];
+        }
+        EventBus.getDefault().post(new QueueJumpEvent(item));
     }
 }
