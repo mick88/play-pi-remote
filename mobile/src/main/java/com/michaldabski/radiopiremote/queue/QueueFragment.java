@@ -164,4 +164,8 @@ public class QueueFragment extends BaseFragment implements GsonResponseListener,
             adapter.setCurrentMpdId(queueItem.getMpdId());
         }
     }
+
+    public static QueueFragment newInstance() {
+        return new QueueFragment();
+    }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -49,6 +50,10 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
             launchSetupActivity();
         }
 
+        if (savedInstanceState == null) {
+            final QueueFragment fragment = QueueFragment.newInstance();
+            showFragment(fragment);
+        }
     }
 
     void launchSetupActivity() {
@@ -82,8 +87,10 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
             case REQUEST_CODE_SETUP:
                 if (resultCode == RESULT_OK) {
                     getPlaybackControlsFragment().fetchStatus();
-                    final QueueFragment queueFragment = (QueueFragment) getSupportFragmentManager().findFragmentByTag("queue-fragment");
-                    if (queueFragment != null) queueFragment.fetchQueue();
+                    final Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
+                    if (fragment instanceof QueueFragment) {
+                        ((QueueFragment) fragment).fetchQueue();
+                    }
                 } else {
                     final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
                     if (preferences.contains(PiRemoteApplication.PREF_ADDRESS) == false) {
@@ -148,6 +155,13 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
         return (PlaybackControlFragment) getSupportFragmentManager().findFragmentByTag("playback-controls");
     }
 
+    void showFragment(Fragment fragment) {
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.fragment, fragment)
+            .commit();
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getGroupId() == R.id.groupPages) {
@@ -156,7 +170,8 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
         drawerLayout.closeDrawers();
         switch (item.getItemId()) {
             case R.id.menuQueue:
-                // TODO: show fragment
+                final QueueFragment fragment = QueueFragment.newInstance();
+                showFragment(fragment);
                 return true;
 
             case R.id.menuSettings:
