@@ -14,13 +14,16 @@ import com.michaldabski.radiopiremote.BaseFragment;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
+import com.michaldabski.radiopiremote.api.models.QueueItem;
 import com.michaldabski.radiopiremote.api.models.RadioListResponse;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
+import com.michaldabski.radiopiremote.api.requests.PlayRequest;
 import com.michaldabski.radiopiremote.queue.MpdItemAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by Michal on 21/11/2016.
@@ -58,7 +61,18 @@ public class RadioListFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // TODO: play clicked radio
+        final Object item = parent.getItemAtPosition(position);
+        if (item instanceof RadioStation) {
+            RadioStation radioStation = ((RadioStation) item);
+            final ApiUrlBuilder urlBuilder = getPiRemoteApplication().getApiUrlBuilder();
+            PlayRequest request = PlayRequest.playRadios(urlBuilder, Collections.singletonList(radioStation), this, new GsonResponseListener<QueueItem[]>() {
+                @Override
+                public void onResponse(QueueItem[] responseObject) {
+                    // TODO: send event
+                }
+            });
+            sendRequest(request);
+        }
     }
 
     void fetchRadios() {
