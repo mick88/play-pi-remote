@@ -14,6 +14,11 @@
     </group>
     <group>
         <item
+            android:id="@+id/menuOpenInBrowser"
+            android:icon="@drawable/ic_web"
+            android:title="@string/open_in_browser"
+            android:titleCondensed="web" />
+        <item
             android:id="@+id/menuSettings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings" />
