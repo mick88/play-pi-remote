@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 import com.android.volley.Request;
-import com.michaldabski.radiopiremote.BaseFragment;
 import com.michaldabski.radiopiremote.BuildConfig;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiConfigurationError;
@@ -21,6 +20,7 @@ import com.michaldabski.radiopiremote.api.requests.ApiRequest;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.JumpRequest;
 import com.michaldabski.radiopiremote.api.requests.StatusRequest;
+import com.michaldabski.radiopiremote.base.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

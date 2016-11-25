@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
-import com.michaldabski.radiopiremote.BaseApiFragment;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.events.QueueJumpEvent;
@@ -21,6 +20,7 @@ import com.michaldabski.radiopiremote.api.models.QueueItem;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.JumpRequest;
 import com.michaldabski.radiopiremote.api.requests.QueueRequest;
+import com.michaldabski.radiopiremote.base.BaseApiFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

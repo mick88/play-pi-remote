@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
-import com.michaldabski.radiopiremote.BaseApiFragment;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
@@ -19,6 +18,7 @@ import com.michaldabski.radiopiremote.api.models.RadioListResponse;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.PlayRequest;
+import com.michaldabski.radiopiremote.base.BaseApiFragment;
 import com.michaldabski.radiopiremote.queue.MpdItemAdapter;
 
 import java.util.ArrayList;

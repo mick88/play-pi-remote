@@ -1,4 +1,4 @@
-package com.michaldabski.radiopiremote;
+package com.michaldabski.radiopiremote.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiConfigurationError;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
