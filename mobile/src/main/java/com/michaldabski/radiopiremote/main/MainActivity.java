@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
                     getPlaybackControlsFragment().fetchStatus();
                     final Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
                     if (fragment instanceof QueueFragment) {
-                        ((QueueFragment) fragment).fetchQueue();
+                        ((QueueFragment) fragment).sendRequest();
                     }
                 } else {
                     final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
