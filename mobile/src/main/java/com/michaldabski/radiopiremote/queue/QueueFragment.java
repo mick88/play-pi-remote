@@ -66,7 +66,7 @@ public class QueueFragment extends BaseApiFragment<QueueItem[], BaseMpdModel> {
     public void sendRequest() {
         super.sendRequest();
 
-        final QueueRequest queueRequest = QueueRequest.getCurrentItem(getApiUrlBuilder(), this, new GsonResponseListener<QueueItem>() {
+        final QueueRequest queueRequest = QueueRequest.getCurrentItem(getUrlBuilder(), this, new GsonResponseListener<QueueItem>() {
             @Override
             public void onResponse(QueueItem responseObject) {
                 final int mpdId = responseObject.getMpdId();
@@ -79,7 +79,7 @@ public class QueueFragment extends BaseApiFragment<QueueItem[], BaseMpdModel> {
     @NonNull
     @Override
     protected Request<QueueItem[]> createRequest() {
-        final ApiUrlBuilder urlBuilder = getApiUrlBuilder();
+        final ApiUrlBuilder urlBuilder = getUrlBuilder();
         final QueueRequest<QueueItem[]> request = QueueRequest.getQueue(urlBuilder, this, this);
         return request;
     }
@@ -98,7 +98,7 @@ public class QueueFragment extends BaseApiFragment<QueueItem[], BaseMpdModel> {
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         final BaseMpdModel item = (BaseMpdModel) adapterView.getItemAtPosition(position);
-        final ApiUrlBuilder urlBuilder = getApiUrlBuilder();
+        final ApiUrlBuilder urlBuilder = getUrlBuilder();
         //noinspection unchecked
         final JumpRequest jumpRequest = JumpRequest.item(urlBuilder, item, this, null);
         sendRequest(jumpRequest);

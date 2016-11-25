@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 import com.michaldabski.radiopiremote.R;
-import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.RadioListResponse;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
@@ -53,8 +52,7 @@ public class RadioListFragment extends BaseApiFragment<RadioListResponse, BaseMp
         final Object item = parent.getItemAtPosition(position);
         if (item instanceof RadioStation) {
             RadioStation radioStation = ((RadioStation) item);
-            final ApiUrlBuilder urlBuilder = getPiRemoteApplication().getApiUrlBuilder();
-            PlayRequest request = PlayRequest.playRadios(urlBuilder, Collections.singletonList(radioStation), this, null);
+            PlayRequest request = PlayRequest.playRadios(getUrlBuilder(), Collections.singletonList(radioStation), this, null);
             sendRequest(request);
         }
     }
@@ -62,7 +60,7 @@ public class RadioListFragment extends BaseApiFragment<RadioListResponse, BaseMp
     @NonNull
     @Override
     protected Request<RadioListResponse> createRequest() {
-        return new RadioListRequest(getApiUrlBuilder(), this, this);
+        return new RadioListRequest(getUrlBuilder(), this, this);
     }
 
     @Override

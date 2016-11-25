@@ -94,7 +94,7 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         return adapter;
     }
 
-    protected ApiUrlBuilder getApiUrlBuilder() throws ApiConfigurationError{
+    protected ApiUrlBuilder getUrlBuilder() throws ApiConfigurationError{
         return getPiRemoteApplication().getApiUrlBuilder();
     }
 
