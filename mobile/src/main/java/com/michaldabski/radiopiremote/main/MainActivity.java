@@ -15,13 +15,13 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.michaldabski.radiopiremote.BaseActivity;
 import com.michaldabski.radiopiremote.BuildConfig;
 import com.michaldabski.radiopiremote.PiRemoteApplication;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.models.Status;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.StatusRequest;
+import com.michaldabski.radiopiremote.base.BaseActivity;
 import com.michaldabski.radiopiremote.control.PlaybackControlFragment;
 import com.michaldabski.radiopiremote.queue.QueueFragment;
 import com.michaldabski.radiopiremote.radios.RadioListFragment;
@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
                     getPlaybackControlsFragment().fetchStatus();
                     final Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
                     if (fragment instanceof QueueFragment) {
-                        ((QueueFragment) fragment).fetchQueue();
+                        ((QueueFragment) fragment).sendRequest();
                     }
                 } else {
                     final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
