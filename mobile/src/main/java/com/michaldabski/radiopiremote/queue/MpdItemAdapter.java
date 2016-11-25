@@ -87,11 +87,11 @@ public class MpdItemAdapter extends ArrayAdapter<BaseMpdModel> {
 
             switch (getItemViewType(position)) {
                 case VIEW_TYPE_RADIO:
-                    viewHolder.imgArt.setDefaultImageResId(R.drawable.ic_radio);
+                    viewHolder.imgArt.setDefaultImageResId(R.drawable.ic_item_radio);
                     viewHolder.tvTitle.setVisibility(View.GONE);
                     break;
                 case VIEW_TYPE_TRACK:
-                    viewHolder.imgArt.setDefaultImageResId(R.drawable.ic_track);
+                    viewHolder.imgArt.setDefaultImageResId(R.drawable.ic_item_track);
                     break;
             }
         } else {

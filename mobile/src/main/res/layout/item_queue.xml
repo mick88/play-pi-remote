@@ -14,7 +14,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_radio" />
+            android:src="@drawable/ic_item_radio" />
 
         <ImageView
             android:id="@+id/imgPlay"
