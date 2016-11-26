@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
+import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.Track;
 import com.michaldabski.radiopiremote.api.models.TrackListResponse;
@@ -26,8 +27,9 @@ import java.util.List;
 public class TrackListFragment extends BaseApiFragment<TrackListResponse, BaseMpdModel> {
     @NonNull
     @Override
-    protected Request<TrackListResponse> createRequest() {
-        return new TrackListRequest(getUrlBuilder(), this, this);
+    protected Request<TrackListResponse> createRequest(int page) {
+        final ApiUrlBuilder urlBuilder = getUrlBuilder();
+        return new TrackListRequest(urlBuilder.getTracksUrl(page), this, this);
     }
 
     @NonNull
@@ -55,9 +57,6 @@ public class TrackListFragment extends BaseApiFragment<TrackListResponse, BaseMp
     @Override
     public void onResponse(TrackListResponse response) {
         super.onResponse(response);
-        if (response.getPrevious() == null) {
-            getAdapter().clear();
-        }
         final Track[] items = response.getResults();
         getAdapter().addAll(Arrays.asList(items));
     }

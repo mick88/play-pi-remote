@@ -78,7 +78,7 @@ public class QueueFragment extends BaseApiFragment<QueueItem[], BaseMpdModel> {
 
     @NonNull
     @Override
-    protected Request<QueueItem[]> createRequest() {
+    protected Request<QueueItem[]> createRequest(int page) {
         final ApiUrlBuilder urlBuilder = getUrlBuilder();
         final QueueRequest<QueueItem[]> request = QueueRequest.getQueue(urlBuilder, this, this);
         return request;

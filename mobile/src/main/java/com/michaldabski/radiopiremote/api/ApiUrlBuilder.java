@@ -37,4 +37,14 @@ public class ApiUrlBuilder {
     public String getStatusUrl() {
         return getEndpointUrl(ENDPOINT_STATUS);
     }
+
+    public String getTracksUrl(int page) {
+        final String tracksUrl = getEndpointUrl(ApiUrlBuilder.ENDPOINT_TRACKS);
+        return tracksUrl + "?page=" + page;
+    }
+
+    public String getRadiosUrl(int page) {
+        final String url = getEndpointUrl(ApiUrlBuilder.ENDPOINT_RADIOS);
+        return url + "?page=" + page;
+    }
 }
