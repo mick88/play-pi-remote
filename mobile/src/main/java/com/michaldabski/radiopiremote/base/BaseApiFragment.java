@@ -28,6 +28,10 @@ import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
  */
 public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
     public static final int DEFAULT_PAGE = 1;
+    /**
+     * Prefetch next page this many items before the end
+     */
+    public static final int NEXTPAGE_PREFETCH = 5;
     private ArrayAdapter<IT> adapter;
     private ListView listView = null;
     private Request<RT> currentRequest = null;
@@ -136,19 +140,11 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        int lastVisibleItem = firstVisibleItem + visibleItemCount;
+        int lastVisibleItem = firstVisibleItem + visibleItemCount + NEXTPAGE_PREFETCH;
         if (hasMorePages && currentRequest == null && lastVisibleItem >= totalItemCount) {
             currentRequest = createRequest(nextPageNumber);
             sendRequest(currentRequest);
         }
     }
 
-    public void setNextPageNumber(int nextPageNumber) {
-        this.nextPageNumber = nextPageNumber;
-    }
-
-
-    public void setHasMorePages(boolean hasMorePages) {
-        this.hasMorePages = hasMorePages;
-    }
 }
