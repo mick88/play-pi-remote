@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 import com.michaldabski.radiopiremote.R;
+import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.RadioListResponse;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
@@ -59,16 +60,14 @@ public class RadioListFragment extends BaseApiFragment<RadioListResponse, BaseMp
 
     @NonNull
     @Override
-    protected Request<RadioListResponse> createRequest() {
-        return new RadioListRequest(getUrlBuilder(), this, this);
+    protected Request<RadioListResponse> createRequest(int page) {
+        final ApiUrlBuilder urlBuilder = getUrlBuilder();
+        return new RadioListRequest(urlBuilder.getRadiosUrl(page), this, this);
     }
 
     @Override
     public void onResponse(RadioListResponse response) {
         super.onResponse(response);
-        if (response.getPrevious() == null) {
-            getAdapter().clear();
-        }
         final RadioStation[] items = response.getResults();
         getAdapter().addAll(Arrays.asList(items));
     }

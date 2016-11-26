@@ -8,6 +8,10 @@
             android:icon="@drawable/ic_play"
             android:title="@string/queue" />
         <item
+            android:id="@+id/menuTracks"
+            android:icon="@drawable/ic_track"
+            android:title="@string/tracks" />
+        <item
             android:id="@+id/menuRadios"
             android:icon="@drawable/ic_radio"
             android:title="@string/radios" />

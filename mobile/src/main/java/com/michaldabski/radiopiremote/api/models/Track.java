@@ -39,4 +39,8 @@ public class Track extends BaseMpdModel {
     public int getRating() {
         return rating;
     }
+
+    public Track(int id) {
+        super(id);
+    }
 }

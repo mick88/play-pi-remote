@@ -14,6 +14,7 @@ public class ApiUrlBuilder {
     public static final String ENDPOINT_JUMP = "jump/";
     public static final String ENDPOINT_QUEUE = "queue/items";
     public static final String ENDPOINT_QUEUE_NOW_PLAYING = "queue/current";
+    public static final String ENDPOINT_TRACKS = "tracks/";
     public static final String ENDPOINT_RADIOS = "radio_stations/";
     public static final String ENDPOINT_PLAY = "play/";
     private static final String URL_TEMPLATE = "%sapi/%s";
@@ -35,5 +36,15 @@ public class ApiUrlBuilder {
 
     public String getStatusUrl() {
         return getEndpointUrl(ENDPOINT_STATUS);
+    }
+
+    public String getTracksUrl(int page) {
+        final String tracksUrl = getEndpointUrl(ApiUrlBuilder.ENDPOINT_TRACKS);
+        return tracksUrl + "?page=" + page;
+    }
+
+    public String getRadiosUrl(int page) {
+        final String url = getEndpointUrl(ApiUrlBuilder.ENDPOINT_RADIOS);
+        return url + "?page=" + page;
     }
 }

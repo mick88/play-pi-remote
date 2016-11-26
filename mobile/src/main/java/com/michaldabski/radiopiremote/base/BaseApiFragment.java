@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiConfigurationError;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
+import com.michaldabski.radiopiremote.api.models.ListResponse;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 
 
@@ -25,9 +26,17 @@ import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
  * @param <RT> Type of the Response object
  * @param <IT> Type of the item object
  */
-public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener {
+public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
+    public static final int DEFAULT_PAGE = 1;
+    /**
+     * Prefetch next page this many items before the end
+     */
+    public static final int NEXTPAGE_PREFETCH = 5;
     private ArrayAdapter<IT> adapter;
     private ListView listView = null;
+    private Request<RT> currentRequest = null;
+    boolean hasMorePages = false;
+    int nextPageNumber = DEFAULT_PAGE;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +58,7 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         listView.setOnItemClickListener(this);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
+        listView.setOnScrollListener(this);
     }
 
     @Override
@@ -82,12 +92,24 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
 
     public void sendRequest(){
         setProgressVisible(true);
-        sendRequest(createRequest());
+        currentRequest = createRequest(DEFAULT_PAGE);
+        sendRequest(currentRequest);
     }
 
     @Override
-    public void onResponse(RT responseObject) {
+    public void onResponse(RT response) {
+        currentRequest = null;
         setProgressVisible(false);
+
+        if (response instanceof ListResponse) {
+            final ListResponse listResponse = (ListResponse) response;
+            if (listResponse.getPrevious() == null) {
+                // Clean list if this is the first page
+                adapter.clear();
+            }
+            hasMorePages = listResponse.getNext() != null;
+            nextPageNumber++;
+        }
     }
 
     public ArrayAdapter<IT> getAdapter() {
@@ -102,7 +124,7 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
      * Build request object to fetch the response for this fragment
      */
     @NonNull
-    protected abstract Request<RT> createRequest();
+    protected abstract Request<RT> createRequest(int page);
 
     /**
      * Create empty adapter
@@ -110,4 +132,19 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
      */
     @NonNull
     protected abstract ArrayAdapter<IT> createAdapter();
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int lastVisibleItem = firstVisibleItem + visibleItemCount + NEXTPAGE_PREFETCH;
+        if (hasMorePages && currentRequest == null && lastVisibleItem >= totalItemCount) {
+            currentRequest = createRequest(nextPageNumber);
+            sendRequest(currentRequest);
+        }
+    }
+
 }
