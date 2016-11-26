@@ -7,6 +7,7 @@ import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.events.QueueJumpEvent;
 import com.michaldabski.radiopiremote.api.models.QueueItem;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
+import com.michaldabski.radiopiremote.api.models.Track;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -23,6 +24,13 @@ public class PlayRequest extends GsonRequest<QueueItem[]> {
 
     public static PlayRequest playRadios(ApiUrlBuilder urlBuilder, List<RadioStation> radioStations, Response.ErrorListener listener, @Nullable GsonResponseListener<QueueItem[]> responseListener) {
         final String url = urlBuilder.getPlayUrl(ApiUrlBuilder.PLAY_RADIOS);
+        final PlayRequest request = new PlayRequest(url, listener, responseListener);
+        request.setObject(radioStations);
+        return request;
+    }
+
+    public static PlayRequest playTracks(ApiUrlBuilder urlBuilder, List<Track> radioStations, Response.ErrorListener listener, @Nullable GsonResponseListener<QueueItem[]> responseListener) {
+        final String url = urlBuilder.getPlayUrl(ApiUrlBuilder.PLAY_TRACKS);
         final PlayRequest request = new PlayRequest(url, listener, responseListener);
         request.setObject(radioStations);
         return request;
