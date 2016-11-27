@@ -28,4 +28,13 @@ public class QueueItem {
     public String toString() {
         return String.format("%s (%s)", getItem(), mpdId);
     }
+
+    public QueueItem(RadioStation radioStation) {
+        this.radioStation = radioStation;
+    }
+
+    public QueueItem(Track track) {
+
+        this.track = track;
+    }
 }

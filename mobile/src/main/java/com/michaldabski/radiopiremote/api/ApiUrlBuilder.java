@@ -12,7 +12,8 @@ public class ApiUrlBuilder {
             PLAY_TRACKS = "tracks";
     public static final String ENDPOINT_STATUS = "status/";
     public static final String ENDPOINT_JUMP = "jump/";
-    public static final String ENDPOINT_QUEUE = "queue/items";
+    public static final String ENDPOINT_QUEUE = "queue/";
+    public static final String ENDPOINT_QUEUE_ITEMS = "queue/items";
     public static final String ENDPOINT_QUEUE_NOW_PLAYING = "queue/current";
     public static final String ENDPOINT_TRACKS = "tracks/";
     public static final String ENDPOINT_RADIOS = "radio_stations/";

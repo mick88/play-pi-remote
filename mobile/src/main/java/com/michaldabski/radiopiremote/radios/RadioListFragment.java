@@ -4,13 +4,18 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
+import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
+import com.michaldabski.radiopiremote.api.models.QueueItem;
+import com.michaldabski.radiopiremote.api.models.QueueResponse;
 import com.michaldabski.radiopiremote.api.models.RadioListResponse;
 import com.michaldabski.radiopiremote.api.models.RadioStation;
+import com.michaldabski.radiopiremote.api.requests.EnqueueRequest;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.PlayRequest;
 import com.michaldabski.radiopiremote.base.BaseApiFragment;
@@ -59,5 +64,22 @@ public class RadioListFragment extends BaseApiFragment<RadioListResponse, BaseMp
         super.onResponse(response);
         final RadioStation[] items = response.getResults();
         getAdapter().addAll(Arrays.asList(items));
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+        final Object item = adapterView.getItemAtPosition(position);
+        if (item instanceof RadioStation) {
+            QueueItem queueItem = new QueueItem(((RadioStation) item));
+            EnqueueRequest request = new EnqueueRequest(getUrlBuilder(), queueItem, this, new GsonResponseListener<QueueResponse>() {
+                @Override
+                public void onResponse(QueueResponse responseObject) {
+                    Toast.makeText(getContext(), getString(R.string.enqueued_s, item), Toast.LENGTH_SHORT).show();
+                }
+            });
+            sendRequest(request);
+            return true;
+        }
+        return false;
     }
 }
