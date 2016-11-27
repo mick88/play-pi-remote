@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
@@ -18,6 +19,7 @@ import com.michaldabski.radiopiremote.api.events.QueueJumpEvent;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.QueueItem;
 import com.michaldabski.radiopiremote.api.models.QueueResponse;
+import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
 import com.michaldabski.radiopiremote.api.requests.JumpRequest;
 import com.michaldabski.radiopiremote.api.requests.QueueRequest;
 import com.michaldabski.radiopiremote.base.BaseApiFragment;
@@ -115,8 +117,19 @@ public class QueueFragment extends BaseApiFragment<QueueResponse, BaseMpdModel> 
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        // TODO: remove item from queue
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+        final Object item = adapterView.getItemAtPosition(position);
+        if (item instanceof BaseMpdModel) {
+            final QueueRequest<QueueResponse> request = QueueRequest.removeQueueItem(getUrlBuilder(), ((BaseMpdModel) item), this, new GsonResponseListener<QueueResponse>() {
+                @Override
+                public void onResponse(QueueResponse queueResponse) {
+                    Toast.makeText(getContext(), getString(R.string.s_removed_from_queue, item), Toast.LENGTH_SHORT).show();
+                    QueueFragment.this.onResponse(queueResponse);
+                }
+            });
+            sendRequest(request);
+            return true;
+        }
         return false;
     }
 }
