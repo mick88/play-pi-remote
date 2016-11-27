@@ -12,6 +12,7 @@ import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.QueueItem;
+import com.michaldabski.radiopiremote.api.models.QueueResponse;
 import com.michaldabski.radiopiremote.api.models.Track;
 import com.michaldabski.radiopiremote.api.models.TrackListResponse;
 import com.michaldabski.radiopiremote.api.requests.EnqueueRequest;
@@ -71,9 +72,9 @@ public class TrackListFragment extends BaseApiFragment<TrackListResponse, BaseMp
         final Object item = adapterView.getItemAtPosition(position);
         if (item instanceof Track) {
             QueueItem queueItem = new QueueItem(((Track) item));
-            EnqueueRequest request = new EnqueueRequest(getUrlBuilder(), queueItem, this, new GsonResponseListener<QueueItem[]>() {
+            EnqueueRequest request = new EnqueueRequest(getUrlBuilder(), queueItem, this, new GsonResponseListener<QueueResponse>() {
                 @Override
-                public void onResponse(QueueItem[] responseObject) {
+                public void onResponse(QueueResponse responseObject) {
                     Toast.makeText(getContext(), getString(R.string.enqueued_s, item), Toast.LENGTH_SHORT).show();
                 }
             });
