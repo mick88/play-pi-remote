@@ -1,17 +1,12 @@
 package com.michaldabski.radiopiremote.radios;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
-import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.RadioListResponse;
@@ -36,12 +31,6 @@ public class RadioListFragment extends BaseApiFragment<RadioListResponse, BaseMp
     protected ArrayAdapter<BaseMpdModel> createAdapter() {
         final ImageLoader imageLoader = getPiRemoteApplication().getImageLoader();
         return new MpdItemAdapter(getContext(), new ArrayList<BaseMpdModel>(), imageLoader);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.list, container, false);
     }
 
     public static RadioListFragment newInstance() {
