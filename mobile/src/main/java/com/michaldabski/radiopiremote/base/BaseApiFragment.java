@@ -37,6 +37,7 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
     private Request<RT> currentRequest = null;
     boolean hasMorePages = false;
     int nextPageNumber = DEFAULT_PAGE;
+    private View progressFooter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +60,10 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
         listView.setOnScrollListener(this);
+
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+        progressFooter = inflater.inflate(R.layout.progress, listView, false);
+        listView.addFooterView(progressFooter, null, false);
     }
 
     @Override
@@ -75,12 +80,13 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
     public void onDestroyView() {
         super.onDestroyView();
         listView = null;
+        progressFooter = null;
     }
 
     protected void setProgressVisible(boolean visible) {
         if (isAdded()) {
             final int visibility = visible ? View.VISIBLE : View.GONE;
-            getView().findViewById(android.R.id.progress).setVisibility(visibility);
+            progressFooter.setVisibility(visibility);
         }
     }
 
@@ -144,6 +150,7 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         if (hasMorePages && currentRequest == null && lastVisibleItem >= totalItemCount) {
             currentRequest = createRequest(nextPageNumber);
             sendRequest(currentRequest);
+            progressFooter.setVisibility(View.VISIBLE);
         }
     }
 
