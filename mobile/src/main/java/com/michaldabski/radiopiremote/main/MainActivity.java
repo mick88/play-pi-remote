@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.michaldabski.radiopiremote.BuildConfig;
 import com.michaldabski.radiopiremote.PiRemoteApplication;
 import com.michaldabski.radiopiremote.R;
 import com.michaldabski.radiopiremote.api.models.Status;
@@ -65,7 +64,6 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
 
     void setupActionBar() {
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setSubtitle("Version " + BuildConfig.VERSION_NAME);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }

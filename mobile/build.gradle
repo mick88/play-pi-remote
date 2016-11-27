@@ -33,6 +33,7 @@ android {
         versionName getVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "int", "VOLUME_CHANGE_STEP", '5'
+        resValue "string", "version", 'Version ' + versionName
     }
     buildTypes {
         release {
