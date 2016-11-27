@@ -26,7 +26,7 @@ import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
  * @param <RT> Type of the Response object
  * @param <IT> Type of the item object
  */
-public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
+public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener {
     public static final int DEFAULT_PAGE = 1;
     /**
      * Prefetch next page this many items before the end
@@ -57,6 +57,7 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
 
         listView = (ListView) view.findViewById(android.R.id.list);
         listView.setOnItemClickListener(this);
+        listView.setOnItemLongClickListener(this);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
         listView.setOnScrollListener(this);

@@ -125,4 +125,10 @@ public class QueueFragment extends BaseApiFragment<QueueItem[], BaseMpdModel> {
     public static QueueFragment newInstance() {
         return new QueueFragment();
     }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        // TODO: remove item from queue
+        return false;
+    }
 }

@@ -16,7 +16,7 @@ public class QueueRequest<T> extends ApiRequest<T> {
     }
 
     public static QueueRequest<QueueItem[]> getQueue(ApiUrlBuilder apiUrlBuilder, Response.ErrorListener errorListener, GsonResponseListener<QueueItem[]> responseListener) {
-        return new QueueRequest<>(Method.GET, apiUrlBuilder, ApiUrlBuilder.ENDPOINT_QUEUE, QueueItem[].class, errorListener, responseListener);
+        return new QueueRequest<>(Method.GET, apiUrlBuilder, ApiUrlBuilder.ENDPOINT_QUEUE_ITEMS, QueueItem[].class, errorListener, responseListener);
     }
 
     public static QueueRequest<QueueItem> getCurrentItem(ApiUrlBuilder apiUrlBuilder, Response.ErrorListener errorListener, GsonResponseListener<QueueItem> responseListener) {
