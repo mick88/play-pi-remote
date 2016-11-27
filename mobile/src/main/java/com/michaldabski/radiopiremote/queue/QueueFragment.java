@@ -17,7 +17,7 @@ import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.events.QueueJumpEvent;
 import com.michaldabski.radiopiremote.api.models.BaseMpdModel;
 import com.michaldabski.radiopiremote.api.models.QueueItem;
-import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
+import com.michaldabski.radiopiremote.api.models.QueueResponse;
 import com.michaldabski.radiopiremote.api.requests.JumpRequest;
 import com.michaldabski.radiopiremote.api.requests.QueueRequest;
 import com.michaldabski.radiopiremote.base.BaseApiFragment;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Created by Michal on 31/10/2016.
  */
 
-public class QueueFragment extends BaseApiFragment<QueueItem[], BaseMpdModel> {
+public class QueueFragment extends BaseApiFragment<QueueResponse, BaseMpdModel> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,38 +61,26 @@ public class QueueFragment extends BaseApiFragment<QueueItem[], BaseMpdModel> {
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void sendRequest() {
-        super.sendRequest();
-
-        final QueueRequest queueRequest = QueueRequest.getCurrentItem(getUrlBuilder(), this, new GsonResponseListener<QueueItem>() {
-            @Override
-            public void onResponse(QueueItem responseObject) {
-                final int mpdId = responseObject.getMpdId();
-                ((MpdItemAdapter) getAdapter()).setCurrentMpdId(mpdId);
-            }
-        });
-        sendRequest(queueRequest);
-    }
-
     @NonNull
     @Override
-    protected Request<QueueItem[]> createRequest(int page) {
+    protected Request<QueueResponse> createRequest(int page) {
         final ApiUrlBuilder urlBuilder = getUrlBuilder();
-        final QueueRequest<QueueItem[]> request = QueueRequest.getQueue(urlBuilder, this, this);
-        return request;
+        return QueueRequest.getQueue(urlBuilder, this, this);
     }
 
     @Override
-    public void onResponse(QueueItem[] queueItems) {
-        super.onResponse(queueItems);
-        final ArrayAdapter<BaseMpdModel> adapter = getAdapter();
+    public void onResponse(QueueResponse queueResponse) {
+        super.onResponse(queueResponse);
+        final MpdItemAdapter adapter = (MpdItemAdapter) getAdapter();
         adapter.clear();
-        for (QueueItem queueItem : queueItems) {
+        for (QueueItem queueItem : queueResponse.getItems()) {
             final BaseMpdModel item = queueItem.getItem();
             if (item != null) adapter.add(item);
         }
+
+        final QueueItem current = queueResponse.getCurrent();
+        if (current == null) adapter.setCurrentMpdId(null);
+        else adapter.setCurrentMpdId(current.getMpdId());
     }
 
     @Override
