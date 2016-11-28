@@ -3,8 +3,10 @@ package com.michaldabski.radiopiremote.base;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.view.menu.MenuItemImpl;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
  */
 public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, SearchView.OnQueryTextListener {
     public static final int DEFAULT_PAGE = 1;
+    public static final String STATE_SEARCH = "search";
     protected String search = null;
     /**
      * Prefetch next page this many items before the end
@@ -47,6 +50,15 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         super.onCreate(savedInstanceState);
         this.adapter = createAdapter();
         setHasOptionsMenu(true);
+        if (savedInstanceState != null) {
+            search = savedInstanceState.getString(STATE_SEARCH);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_SEARCH, search);
     }
 
     @Override
@@ -57,6 +69,20 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        final MenuItemImpl searchItem = (MenuItemImpl) menu.findItem(R.id.search);
+        if (searchItem != null) {
+            final SearchView searchView = (SearchView) searchItem.getActionView();
+            searchView.setOnQueryTextListener(this);
+            if (search != null) {
+                searchItem.expandActionView();
+                searchView.setQuery(search, false);
+            }
         }
     }
 

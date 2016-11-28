@@ -1,7 +1,6 @@
 package com.michaldabski.radiopiremote.radios;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -38,9 +37,6 @@ public class RadioListFragment extends BaseApiFragment<RadioListResponse, BaseMp
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.mpd_list, menu);
-
-        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setOnQueryTextListener(this);
     }
 
     @NonNull
