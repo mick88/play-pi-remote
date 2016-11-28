@@ -49,8 +49,12 @@ public class ApiUrlBuilder {
         return url;
     }
 
-    public String getRadiosUrl(int page) {
-        final String url = getEndpointUrl(ApiUrlBuilder.ENDPOINT_RADIOS);
-        return url + "?page=" + page;
+    public String getRadiosUrl(int page, @Nullable String search) {
+        String url = getEndpointUrl(ApiUrlBuilder.ENDPOINT_RADIOS);
+        url += "?page=" + page;
+        if (search != null) {
+            url += "&search=" + search;
+        }
+        return url;
     }
 }
