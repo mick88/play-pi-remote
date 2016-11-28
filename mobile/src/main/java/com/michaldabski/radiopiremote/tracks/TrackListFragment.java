@@ -1,6 +1,9 @@
 package com.michaldabski.radiopiremote.tracks;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,11 +34,21 @@ import java.util.List;
  */
 
 public class TrackListFragment extends BaseApiFragment<TrackListResponse, BaseMpdModel> {
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.mpd_list, menu);
+
+        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setOnQueryTextListener(this);
+    }
+
     @NonNull
     @Override
     protected Request<TrackListResponse> createRequest(int page) {
         final ApiUrlBuilder urlBuilder = getUrlBuilder();
-        return new TrackListRequest(urlBuilder.getTracksUrl(page), this, this);
+        return new TrackListRequest(urlBuilder.getTracksUrl(page, this.search), this, this);
     }
 
     @NonNull

@@ -3,7 +3,9 @@ package com.michaldabski.radiopiremote.base;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -26,8 +28,9 @@ import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
  * @param <RT> Type of the Response object
  * @param <IT> Type of the item object
  */
-public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener {
+public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, SearchView.OnQueryTextListener {
     public static final int DEFAULT_PAGE = 1;
+    protected String search = null;
     /**
      * Prefetch next page this many items before the end
      */
@@ -43,6 +46,18 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.adapter = createAdapter();
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                item.expandActionView();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Nullable
@@ -99,7 +114,8 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
 
     public void sendRequest(){
         setProgressVisible(true);
-        currentRequest = createRequest(DEFAULT_PAGE);
+        nextPageNumber = DEFAULT_PAGE;
+        currentRequest = createRequest(nextPageNumber);
         sendRequest(currentRequest);
     }
 
@@ -153,6 +169,20 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
             sendRequest(currentRequest);
             progressFooter.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        search = query;
+        getAdapter().clear();
+        sendRequest();
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // TODO: filter within the adapter
+        return false;
     }
 
 }

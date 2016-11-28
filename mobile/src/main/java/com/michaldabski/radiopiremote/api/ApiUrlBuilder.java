@@ -1,5 +1,6 @@
 package com.michaldabski.radiopiremote.api;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 /** Defines urls for API endpoints
@@ -39,9 +40,13 @@ public class ApiUrlBuilder {
         return getEndpointUrl(ENDPOINT_STATUS);
     }
 
-    public String getTracksUrl(int page) {
-        final String tracksUrl = getEndpointUrl(ApiUrlBuilder.ENDPOINT_TRACKS);
-        return tracksUrl + "?page=" + page;
+    public String getTracksUrl(int page, @Nullable String search) {
+        String url = getEndpointUrl(ApiUrlBuilder.ENDPOINT_TRACKS);
+        url += "?page=" + page;
+        if (search != null) {
+            url += "&search=" + search;
+        }
+        return url;
     }
 
     public String getRadiosUrl(int page) {
