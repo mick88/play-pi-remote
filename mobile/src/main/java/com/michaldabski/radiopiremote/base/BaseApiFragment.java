@@ -1,11 +1,18 @@
 package com.michaldabski.radiopiremote.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.view.menu.MenuItemImpl;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,8 +33,10 @@ import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
  * @param <RT> Type of the Response object
  * @param <IT> Type of the item object
  */
-public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener {
+public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
     public static final int DEFAULT_PAGE = 1;
+    public static final String STATE_SEARCH = "search";
+    protected String search = null;
     /**
      * Prefetch next page this many items before the end
      */
@@ -43,6 +52,42 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.adapter = createAdapter();
+        setHasOptionsMenu(true);
+        if (savedInstanceState != null) {
+            search = savedInstanceState.getString(STATE_SEARCH);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_SEARCH, search);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                item.expandActionView();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        final MenuItemImpl searchItem = (MenuItemImpl) menu.findItem(R.id.search);
+        if (searchItem != null) {
+            final SearchView searchView = (SearchView) searchItem.getActionView();
+            searchView.setOnQueryTextListener(this);
+            MenuItemCompat.setOnActionExpandListener(searchItem, this);
+            if (search != null) {
+                searchItem.expandActionView();
+                searchView.setQuery(search, false);
+            }
+        }
     }
 
     @Nullable
@@ -99,7 +144,8 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
 
     public void sendRequest(){
         setProgressVisible(true);
-        currentRequest = createRequest(DEFAULT_PAGE);
+        nextPageNumber = DEFAULT_PAGE;
+        currentRequest = createRequest(nextPageNumber);
         sendRequest(currentRequest);
     }
 
@@ -155,4 +201,40 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         }
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        search = query;
+        getAdapter().clear();
+        sendRequest();
+
+        final View view = getView();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                this.search = null;
+                sendRequest();
+                return true;
+
+            default:
+                return true;
+        }
+    }
 }

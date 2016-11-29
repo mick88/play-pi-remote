@@ -1,6 +1,8 @@
 package com.michaldabski.radiopiremote.radios;
 
 import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,6 +33,12 @@ import java.util.Collections;
 
 public class RadioListFragment extends BaseApiFragment<RadioListResponse, BaseMpdModel> implements AdapterView.OnItemClickListener, GsonResponseListener<RadioListResponse> {
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.mpd_list, menu);
+    }
+
     @NonNull
     @Override
     protected ArrayAdapter<BaseMpdModel> createAdapter() {
@@ -56,7 +64,7 @@ public class RadioListFragment extends BaseApiFragment<RadioListResponse, BaseMp
     @Override
     protected Request<RadioListResponse> createRequest(int page) {
         final ApiUrlBuilder urlBuilder = getUrlBuilder();
-        return new RadioListRequest(urlBuilder.getRadiosUrl(page), this, this);
+        return new RadioListRequest(urlBuilder.getRadiosUrl(page, this.search), this, this);
     }
 
     @Override
