@@ -202,7 +202,7 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         search = query;
         getAdapter().clear();
         sendRequest();
-        return false;
+        return true;
     }
 
     @Override
