@@ -217,7 +217,6 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        // TODO: filter within the adapter
         return false;
     }
 
