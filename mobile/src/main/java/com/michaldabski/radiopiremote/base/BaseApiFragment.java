@@ -3,6 +3,7 @@ package com.michaldabski.radiopiremote.base;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.view.menu.MenuItemImpl;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
  * @param <RT> Type of the Response object
  * @param <IT> Type of the item object
  */
-public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, SearchView.OnQueryTextListener {
+public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements GsonResponseListener<RT>, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
     public static final int DEFAULT_PAGE = 1;
     public static final String STATE_SEARCH = "search";
     protected String search = null;
@@ -79,6 +80,7 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         if (searchItem != null) {
             final SearchView searchView = (SearchView) searchItem.getActionView();
             searchView.setOnQueryTextListener(this);
+            MenuItemCompat.setOnActionExpandListener(searchItem, this);
             if (search != null) {
                 searchItem.expandActionView();
                 searchView.setQuery(search, false);
@@ -211,4 +213,21 @@ public abstract class BaseApiFragment<RT, IT> extends BaseFragment implements Gs
         return false;
     }
 
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                this.search = null;
+                sendRequest();
+                return true;
+
+            default:
+                return true;
+        }
+    }
 }
