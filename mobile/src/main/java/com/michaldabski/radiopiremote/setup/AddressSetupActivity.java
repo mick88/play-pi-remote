@@ -6,15 +6,12 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.michaldabski.radiopiremote.PiRemoteApplication;
 import com.michaldabski.radiopiremote.R;
-import com.michaldabski.radiopiremote.api.ApiUrlBuilder;
 import com.michaldabski.radiopiremote.api.models.Status;
 import com.michaldabski.radiopiremote.api.requests.GsonResponseListener;
-import com.michaldabski.radiopiremote.api.requests.StatusRequest;
 import com.michaldabski.radiopiremote.base.BaseActivity;
 
 /**
@@ -41,8 +38,7 @@ public class AddressSetupActivity extends BaseActivity implements View.OnClickLi
         }
 
         final String ipAddress = address;
-        final ApiUrlBuilder builder = new ApiUrlBuilder(ipAddress);
-        final StatusRequest request = new StatusRequest(Request.Method.GET, builder, new Response.ErrorListener() {
+        final ServerCheckRequest request = new ServerCheckRequest(ipAddress, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 final EditText editAddress = (EditText) findViewById(R.id.editAddress);
