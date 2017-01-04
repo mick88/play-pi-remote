@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/padding">
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:labelFor="@+id/editAddress"
         android:text="Please enter IP or web address of your Play Pi installation:" />
 
     <EditText
+        android:layout_below="@+id/text"
         android:id="@+id/editAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,12 +22,21 @@
         android:inputType="textUri" />
 
     <Button
+        android:id="@+id/btnDiscover"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editAddress"
+        android:text="@string/discover" />
+
+    <Button
         android:id="@+id/btnOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_alignBaseline="@+id/btnDiscover"
         android:textAppearance="?android:textAppearanceInverse"
+        android:layout_alignParentRight="true"
         android:backgroundTint="@color/colorAccent"
         android:text="@android:string/ok" />
 
-</LinearLayout>
+</RelativeLayout>

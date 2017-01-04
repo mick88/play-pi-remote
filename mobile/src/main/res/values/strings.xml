@@ -12,4 +12,5 @@
     <string name="tracks">Tracks</string>
     <string name="enqueued_s">"Enqueued %s"</string>
     <string name="s_removed_from_queue">"%s removed from queue"</string>
+    <string name="discover">Discover…</string>
 </resources>
