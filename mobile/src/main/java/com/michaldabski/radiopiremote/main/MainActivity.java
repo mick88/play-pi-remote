@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
         setupNavDrawer();
 
         final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
-        if (savedInstanceState == null && preferences.contains(PiRemoteApplication.PREF_ADDRESS) == false) {
+        if (savedInstanceState == null && preferences.contains(PiRemoteApplication.Companion.getPREF_ADDRESS()) == false) {
             launchSetupActivity();
         }
 
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
                     }
                 } else {
                     final SharedPreferences preferences = getPiRemoteApplication().getSharedPreferences();
-                    if (preferences.contains(PiRemoteApplication.PREF_ADDRESS) == false) {
+                    if (preferences.contains(PiRemoteApplication.Companion.getPREF_ADDRESS()) == false) {
                         finish();
                     }
                 }
@@ -181,7 +181,7 @@ public class MainActivity extends BaseActivity implements GsonResponseListener<S
             case R.id.menuOpenInBrowser:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                final String address = getPiRemoteApplication().getSharedPreferences().getString(PiRemoteApplication.PREF_ADDRESS, null);
+                final String address = getPiRemoteApplication().getSharedPreferences().getString(PiRemoteApplication.Companion.getPREF_ADDRESS(), null);
                 intent.setData(Uri.parse(address));
                 startActivity(intent);
                 return true;
