@@ -23,12 +23,12 @@ def getVersionCode = { ->
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.michaldabski.radiopiremote"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode getVersionCode()
         versionName getVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
