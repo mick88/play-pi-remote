@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.triplet.play'
 
 def getVersionName = { ->
     def stdout = new ByteArrayOutputStream()
@@ -55,4 +56,10 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.greenrobot:eventbus:3.0.0'
+}
+
+play {
+    track = 'beta'
+    serviceAccountEmail = 'apk-uploader@api-5035070348267009932-664752.iam.gserviceaccount.com'
+    pk12File = file('Google Play Android Developer-0f914aa6f504.p12')
 }
