@@ -6,3 +6,4 @@
 .externalNativeBuild
 .idea/
 *.apk
+*.p12
