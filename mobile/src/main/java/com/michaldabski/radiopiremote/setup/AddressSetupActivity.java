@@ -52,7 +52,7 @@ public class AddressSetupActivity extends BaseActivity implements View.OnClickLi
         }, new GsonResponseListener<Status>() {
             @Override
             public void onResponse(Status responseObject) {
-                getPiRemoteApplication().getSharedPreferences().edit().putString(PiRemoteApplication.PREF_ADDRESS, ipAddress).apply();
+                getPiRemoteApplication().getSharedPreferences().edit().putString(PiRemoteApplication.Companion.getPREF_ADDRESS(), ipAddress).apply();
                 setResult(RESULT_OK);
                 finish();
             }
